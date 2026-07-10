@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+langchain
+langchain-community
+langchain-ollama
+chromadb
+gitpython
+sqlalchemy
+pydantic
+pydantic-settings
+python-dotenv
