@@ -6,7 +6,7 @@ def get_vector_store(repo_id: str):
     return Chroma(
         collection_name= repo_id,
         embedding_function= get_embeddings(),
-        persis_directory= settings.chroma_dir,
+        persist_directory= settings.chroma_dir,
     )
 
 

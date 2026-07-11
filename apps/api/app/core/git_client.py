@@ -9,9 +9,16 @@ IGNORED_EXTENSIONS = {".lock", ".png", ".jpg", ".jpeg", ".gif", ".ico", ".woff",
 
 
 def clone_repo(github_url: str, repo_id: str) -> Path:
-    dest = Path(settings.repos_dir)
+    dest = Path(settings.repos_dir) / repo_id
     if dest.exists():
-        shutil.rmtree(dest)
+        try:
+            shutil.rmtree(dest)
+        except PermissionError:
+            raise Exception(
+                "Repository directory is in use. "
+                "Close any programs using it and try again."
+            )
+
 
     Repo.clone_from(github_url, dest)
     return dest

@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import repo, chat, review, architecture
+from app.db.database import engine, base
+from app.models import chat_models
 
 
 app = FastAPI(title= "CodeAtlas API")
@@ -21,3 +23,6 @@ app.include_router(architecture.router, prefix= "/architecture", tags= ["archite
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+base.metadata.create_all(bind= engine)

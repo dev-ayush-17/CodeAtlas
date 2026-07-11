@@ -9,7 +9,7 @@ LANGUAGE_MAP = {
 
 def chunk_file(path: Path, repo_root: Path) -> list[dict]:
 
-    text = path.read_text(errors= "ignore")
+    text = path.read_text(errors="ignore")
     splitter = RecursiveCharacterTextSplitter(chunk_size= 1000, chunk_overlap= 150)
     chunks = splitter.split_text(text)
     rel_path = str(path.relative_to(repo_root))
