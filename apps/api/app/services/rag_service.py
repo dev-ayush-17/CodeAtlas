@@ -1,8 +1,10 @@
 from sqlalchemy.orm import Session
 from app.core.vector_store import query_chunks
 from app.core.llm import get_llm
-from app.core.prompts import RAG_SYSTEM_PROMPT
+from app.core.prompts import RAG_SYSTEM_PROMPT, CODE_EXPLAIN_PROMPT
 from app.services.history_service import save_message
+from pathlib import Path
+from app.config import settings
 
 
 def answer_questions(db: Session, repo_id: str, question: str) -> dict:
@@ -20,3 +22,11 @@ def answer_questions(db: Session, repo_id: str, question: str) -> dict:
     save_message(db, repo_id, "assistant", answer_text, sources)
 
     return {"answer": answer_text, "sources": sources}
+
+
+def explain_file(repo_id: str, relative_path: str) -> str:
+    file_path = Path(settings.repos_dir) / repo_id / relative_path
+    code = file_path.read_text(errors= "ignore")
+    prompt = CODE_EXPLAIN_PROMPT.format(path= relative_path, code= code[:6000])
+    llm = get_llm()
+    return llm.invoke(prompt).content

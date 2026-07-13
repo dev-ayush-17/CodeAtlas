@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.schemas.chat_schema import AskRequest, AskResponse
-from app.services.rag_service import answer_questions
+from app.services.rag_service import answer_questions, explain_file
 from app.services.history_service import get_history
 
 
@@ -29,3 +29,10 @@ def history(repo_id: str, db: Session = Depends(get_db)):
         }
         for m in msgs
     ]
+
+
+@router.get("/explain/{repo_id}")
+def explain(repo_id: str, path: str):
+    return {
+        "explaination": explain_file(repo_id, path)
+    }
