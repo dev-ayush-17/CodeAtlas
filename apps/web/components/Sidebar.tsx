@@ -10,7 +10,6 @@ export default function Sidebar() {
     { name: "Dashboard", href: "/", icon: "dashboard" },
     { name: "Repositories", href: "/repositories", icon: "folder_special" },
     { name: "AI Chat", href: "/chat", icon: "forum" },
-    { name: "Settings", href: "/settings", icon: "settings" },
   ];
 
   return (
